@@ -1,0 +1,13 @@
+Class: Jewelry
+{
+1)jewelry type
+2)weight
+3)material
+4)price
+5)name
+
+enum -> type
+enum -> material type
+{
+
+

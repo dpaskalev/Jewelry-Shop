@@ -9,154 +9,107 @@
 using namespace std;
 
 void PrintTypes();
+
 void PrintMaterials();
 
-enum jewelryType {
-	neckless,
-	earring,
-	bracelet,
-	ring
-};
+string GetType(int choice);
 
-enum jewelryMaterial {
-	gold,
-	silver,
-	platin,
-	brnze,
-
-};
-
-class Jewelry {
-	string name;
-	jewelryType type;
-	jewelryMaterial material;
-	int weight;
-	int price;
-
-public:
-	Jewelry(){}
-
-	Jewelry(string name, jewelryType type, jewelryMaterial material,int weight,int price)
-	{
-		this->name = name;
-		this->type = type;
-		this->material = material;
-		this->weight = weight;
-		this->price = price;
-	}
-
-	string GetName()
-	{
-		return name;
-	}
-	jewelryType GetType()
-	{
-		return type;
-	}
-	jewelryMaterial GetMaterial()
-	{
-		return material;
-	}
-	int GetWeight()
-	{
-		return weight;
-	}
-	int GetPrice()
-	{
-		return price;
-	}
-
-	void SetName(string value)
-	{
-		name = value;
-	}
-	void SetType(jewelryType value)
-	{
-		type = value;
-	}
-	void SetMaterial(jewelryMaterial value)
-	{
-		material = value;
-	}
-	void SetWeight(int value)
-	{
-		weight = value;
-	}
-	void SetPrice(int value)
-	{
-		price = value;
-	}
-	void SetAllString(string name, int weight, int price)
-	{
-		this->name = name;
-		this->type = type;
-		this->material = material;
-		this->weight = weight;
-		this->price = price;
-	}
-};
+string GetMaterial(int choice);
 
 int main()
 {
 	ofstream file("file_1.txt");
-	map<Jewelry, int> Colection;
+	string message[] = { "name", "weight","price","count" };
+	string input;
+	int count;
+	int choice;
 
 	if (file.is_open())
 	{
-		
+		cout << "Enter Jewelry count: ";
+		cin >> count;
+
+		for (int i = 0; i < count; i++)
+		{
+			file << "(" << i + 1 << ")\n";
+			PrintTypes();
+			cin >> choice;
+			file << "Type: "<<GetType(choice)<<"\n";
+			PrintMaterials();
+			cin >> choice;
+			file <<"Material: "<< GetMaterial(choice) << "\n";
+			getline(cin, input);
+			for (int j = 0; j < sizeof(message) / sizeof(message[0]); j++)
+			{
+				cout << "Enter " << message[j] << " of the jewelry.\n";
+				getline(cin, input);
+				file << message[j]<<": "<<input<<"\n";
+			}
+			file << "::\n";
+		}
 	}
 	else
 	{
-		cout << "file_1.txt couldn't open \n";
+		cout << "'file_1.txt' couldn't open \n";
 		return 1;
 	}
 
 	file.close();
 }
 
-Jewelry GetItem()
-{
-	string line = "";
-	string message[5] = { "name", "type","material","wieght","price" };
-	string info[3];
-	Jewelry jewelry = Jewelry();
-	int choice;
-	int index = 0;
-
-	for (int i = 0; i < sizeof(message) / sizeof(message[0]); i++)
-	{
-		cout << "Enter " << message[i] << " of the jewelry.\n";
-
-		if (i == 1)
-		{
-			PrintTypes();
-			cin >> choice;
-			jewelry.SetType(jewelryType(choice - 1));
-		}
-		else if (i == 2)
-		{
-			PrintMaterials();
-			cin >> choice;
-			jewelry.SetMaterial(jewelryMaterial(choice - 1));
-		}
-		else
-		{
-			getline(cin, line);
-			info[index] = line;
-			index++;
-		}
-	}
-
-	jewelry.SetName(info[0]);
-	jewelry.SetWeight(stoi(info[1]));
-	jewelry.SetWeight(stoi(info[2]));
-}
-
 void PrintTypes()
 {
-	cout << "1. Neckless\n" << "2. Earring\n" << "3. Bracelet\n" << "4. Ring\n";
+	cout << "1. Neckless\n" << "2. Earrings\n" << "3. Bracelet\n" << "4. Ring\n";
 }
 
 void PrintMaterials() {
-	cout << "1. Gold\n" << "2. Silver\n" << "3. Platine\n" << "4. Bronze\n";
+	cout << "1. Gold\n" << "2. Silver\n" << "3. Platinum\n" << "4. Bronze\n";
+}
+
+string GetType(int choice) {
+	string result;
+	
+	switch (choice)
+	{
+	case 1:
+		result = "Neckless";
+		break;
+	case 2:
+		result = "Earring";
+		break;
+	case 3:
+		result = "Bracelet";
+		break;
+	case 4:
+		result = "Ring";
+		break;
+	default:
+		break;
+	}
+
+	return result;
+}
+
+string GetMaterial(int choice) {
+	string result;
+
+	switch (choice)
+	{
+	case 1:
+		result = "Gold";
+		break;
+	case 2:
+		result = "Silver";
+		break;
+	case 3:
+		result = "Platinum";
+		break;
+	case 4:
+		result = "Bronze";
+		break;
+	default:
+		break;
+	}
+
+	return result;
 }

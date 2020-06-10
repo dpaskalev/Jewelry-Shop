@@ -1,0 +1,8 @@
+(1)
+Type: Bracelet
+Material: Gold
+name: golden bracelet
+weight: 30gr
+price: 120$
+count: 6
+::

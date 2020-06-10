@@ -1,10 +1,7 @@
 #include "pch.h"
 #include <iostream>
-#include <string>
-#include <iostream>
 #include <fstream>
-#include <map>
-#include <array>
+#include <string>
 
 using namespace std;
 
@@ -18,7 +15,7 @@ string GetMaterial(int choice);
 
 int main()
 {
-	ofstream file("../../file_1.txt");
+	ofstream file("../file_1.txt");
 	string message[] = { "name", "weight","price","count" };
 	string input;
 	int count;
@@ -34,16 +31,16 @@ int main()
 			file << "(" << i + 1 << ")\n";
 			PrintTypes();
 			cin >> choice;
-			file << "Type: "<<GetType(choice)<<"\n";
+			file << "Type: " << GetType(choice) << "\n";
 			PrintMaterials();
 			cin >> choice;
-			file <<"Material: "<< GetMaterial(choice) << "\n";
+			file << "Material: " << GetMaterial(choice) << "\n";
 			getline(cin, input);
 			for (int j = 0; j < sizeof(message) / sizeof(message[0]); j++)
 			{
 				cout << "Enter " << message[j] << " of the jewelry.\n";
 				getline(cin, input);
-				file << message[j]<<": "<<input<<"\n";
+				file << message[j] << ": " << input << "\n";
 			}
 			file << "::\n";
 		}
@@ -68,7 +65,7 @@ void PrintMaterials() {
 
 string GetType(int choice) {
 	string result;
-	
+
 	switch (choice)
 	{
 	case 1:

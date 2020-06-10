@@ -94,11 +94,11 @@ void PrintColection(vector<Jewelry> colection);
 
 vector<Jewelry> ProcessColection(vector<Jewelry> colection, int choice);
 
-vector<Jewelry> ProcessInventory(vector<Jewelry> inventory, vector<Jewelry> colection, int cost, int choice);
+vector<Jewelry> ProcessInventory(vector<Jewelry> inventory, vector<Jewelry> colection, int choice);
 
 void Loop(vector<Jewelry> colection, vector<Jewelry> inventory);
 
-void PrintResult(vector<Jewelry> inventory, int cost);
+void PrintResult(vector<Jewelry> inventory);
 
 int main()
 {
@@ -168,7 +168,7 @@ vector<Jewelry> ProcessColection(vector<Jewelry> colection, int choice)
 	return colection;
 }
 
-vector<Jewelry> ProcessInventory(vector<Jewelry> inventory, vector<Jewelry> colection,int cost,int choice)
+vector<Jewelry> ProcessInventory(vector<Jewelry> inventory, vector<Jewelry> colection,int choice)
 {
 	bool contains = false;
 	for (int j = 0; j < inventory.size(); j++)
@@ -176,7 +176,6 @@ vector<Jewelry> ProcessInventory(vector<Jewelry> inventory, vector<Jewelry> cole
 		if (inventory[j].GetIndex() == colection[choice].GetIndex())
 		{
 			inventory[j].SetCount(inventory[j].GetCount() + 1);
-			cost += colection[choice].GetPrice();
 			contains = true;
 			break;
 		}
@@ -184,7 +183,6 @@ vector<Jewelry> ProcessInventory(vector<Jewelry> inventory, vector<Jewelry> cole
 	if (contains == false)
 	{
 		colection[colection.size() - 1].SetCount((colection[choice].GetCount()) - (colection[choice].GetCount() - 1));
-		cost += colection[colection.size() - 1].GetPrice();
 		inventory.push_back(colection[colection.size() - 1]);
 	}
 
@@ -194,7 +192,7 @@ vector<Jewelry> ProcessInventory(vector<Jewelry> inventory, vector<Jewelry> cole
 void Loop(vector<Jewelry> colection, vector<Jewelry> inventory)
 {
 	int choice;
-	int cost = 0;
+	
 
 	while (colection.size() > 0)
 	{
@@ -212,25 +210,27 @@ void Loop(vector<Jewelry> colection, vector<Jewelry> inventory)
 			}
 			if (choice == 0)
 			{
-				PrintResult(inventory, cost);
+				PrintResult(inventory);
 				return;
 			}
 		}
 
 		colection = ProcessColection(colection, choice);
 		//
-		inventory = ProcessInventory(inventory, colection, cost, choice);
+		inventory = ProcessInventory(inventory, colection, choice);
 	}
 
-	PrintResult(inventory, cost);
+	PrintResult(inventory);
 }
 
-void PrintResult(vector<Jewelry> inventory, int cost)
+void PrintResult(vector<Jewelry> inventory)
 {
+	int cost = 0;
+
 	for (int i = 0; i < inventory.size(); i++)
 	{
 		PrintItemData(inventory[i]);
-		cost += inventory[i].GetPrice();
+		cost += (inventory[i].GetPrice() * inventory[i].GetCount());
 	}
 
 	cout <<"Total cost: "<< cost << "\n";

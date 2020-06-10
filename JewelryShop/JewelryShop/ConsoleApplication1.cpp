@@ -88,7 +88,7 @@ public:
 	}
 };
 
-void PrintItemData(Jewelry element);
+void PrintItemData(Jewelry element,int i);
 
 void PrintColection(vector<Jewelry> colection);
 
@@ -131,8 +131,9 @@ int main()
 	}
 }
 
-void PrintItemData(Jewelry element) {
-	cout << "(" << element.GetIndex() << ")" << "\n";
+void PrintItemData(Jewelry element, int i) {
+	element.SetIndex(i + 1);
+	cout << "(" << element.GetIndex()<< ")" << "\n";
 	cout << element.GetType() << "\n";
 	cout << element.GetMaterial() << "\n";
 	cout << element.GetName() << "\n";
@@ -144,7 +145,7 @@ void PrintItemData(Jewelry element) {
 void PrintColection(vector<Jewelry> colection) {
 	for (int i = 0; i < colection.size(); i++)
 	{
-		PrintItemData(colection[i]);
+		PrintItemData(colection[i],i);
 	}
 }
 
@@ -193,7 +194,6 @@ void Loop(vector<Jewelry> colection, vector<Jewelry> inventory)
 {
 	int choice;
 	
-
 	while (colection.size() > 0)
 	{
 		PrintColection(colection);
@@ -229,7 +229,7 @@ void PrintResult(vector<Jewelry> inventory)
 
 	for (int i = 0; i < inventory.size(); i++)
 	{
-		PrintItemData(inventory[i]);
+		PrintItemData(inventory[i],i);
 		cost += (inventory[i].GetPrice() * inventory[i].GetCount());
 	}
 

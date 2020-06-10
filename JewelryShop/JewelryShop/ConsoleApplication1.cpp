@@ -90,10 +90,17 @@ public:
 
 void PrintItemData(Jewelry element);
 
+void PrintElements(vector<Jewelry> colection);
+
+void ProcessChoice(vector<Jewelry> colection, vector<Jewelry> inventory, int choice, int cost);
+
+void ProcessInventory(vector<Jewelry> inventory, vector<Jewelry> colection, int i, int cost);
+
 int main()
 {
 	ifstream file("../../file_1.txt");
 	vector<Jewelry> colection;
+	vector<Jewelry> inventory;
 
 	int index;
 	string type;
@@ -103,6 +110,9 @@ int main()
 	int price;
 	int count;
 
+	int choice;
+	int cost = 0;
+
 	if (file.is_open())
 	{
 		while (file)
@@ -110,9 +120,56 @@ int main()
 			file >> index >> type >> material >> name >> weight >> price >> count;
 			colection.push_back(Jewelry(index, type, material, name, weight, price, count));
 		}
-		for (int i = 0; i < colection.size(); i++)
+
+		int times = 0;
+		while (colection.size() > 0)
 		{
-			PrintItemData(colection[i]); 
+			PrintElements(colection);
+
+			cout << "---\n";
+			cout << "Choose an item index for purchase: ";
+			cin >> choice;
+
+			/*ProcessChoice(colection, inventory, choice, cost);*/
+			for (int i = 0; i < colection.size(); i++)
+			{
+				if (colection[i].GetIndex() == choice)
+				{
+					cost += colection[i].GetPrice();
+					colection[i].SetCount(colection[i].GetCount() - 1);
+					colection[colection.size() - 1] = colection[i];
+
+					if (colection[i].GetCount() == 0)
+					{
+						colection.erase(colection.begin(), colection.begin() + (i + 1));
+					}
+					break;
+				}
+
+				if (times != 0)
+				{
+					/*ProcessInventory(inventory, colection, i, cost);*/
+					bool contains = false;
+					for (int j = 0; j < inventory.size(); j++)
+					{
+						if (inventory[j].GetIndex() == colection[i].GetIndex())
+						{
+							inventory[j].SetCount(inventory[j].GetCount() + 1);
+							cost += colection[i].GetPrice();
+							contains = true;
+							break;
+						}
+					}
+					if (contains == false)
+					{
+						Jewelry forAdding = colection[colection.size() - 1];
+						forAdding.SetCount((colection[i].GetCount()) - (colection[i].GetCount() - 1));
+						inventory.push_back(forAdding);
+					}
+				}
+
+				times++;
+			}
 		}
 	}
 	else
@@ -123,11 +180,59 @@ int main()
 }
 
 void PrintItemData(Jewelry element) {
-	cout << element.GetIndex() << "\n";
+	cout << "(" << element.GetIndex() << ")" << "\n";
 	cout << element.GetType() << "\n";
 	cout << element.GetMaterial() << "\n";
 	cout << element.GetName() << "\n";
 	cout << element.GetWeight() << "\n";
 	cout << element.GetPrice() << "\n";
 	cout << element.GetCount() << "\n";
+}
+
+void PrintElements(vector<Jewelry> colection) {
+	for (int i = 0; i < colection.size(); i++)
+	{
+		PrintItemData(colection[i]);
+	}
+}
+
+void ProcessChoice(vector<Jewelry> colection, vector<Jewelry> inventory, int choice, int cost)
+{
+	for (int i = 0; i < colection.size(); i++)
+	{
+		if (colection[i].GetIndex() == choice)
+		{
+			cost += colection[i].GetPrice();
+			colection[i].SetCount(colection[i].GetCount() - 1);
+			
+			ProcessInventory(inventory, colection, i, cost);
+
+			if (colection[i].GetCount() == 0)
+			{
+				colection.erase(colection.begin(), colection.begin() + (i + 1));
+			}
+			break;
+		}
+	}
+}
+
+void ProcessInventory(vector<Jewelry> inventory, vector<Jewelry> colection, int i,int cost)
+{
+	bool contains = false;
+	for (int j = 0; j < inventory.size(); j++)
+	{
+		if (inventory[j].GetIndex() == colection[i].GetIndex())
+		{
+			inventory[j].SetCount(inventory[j].GetCount() + 1);
+			cost += colection[i].GetPrice();
+			contains = true;
+			break;
+		}
+	}
+	if (contains == false)
+	{
+		Jewelry forAdding = colection[i];
+		forAdding.SetCount((colection[i].GetCount()) - (colection[i].GetCount() - 1));
+		inventory.push_back(forAdding);
+	}
 }

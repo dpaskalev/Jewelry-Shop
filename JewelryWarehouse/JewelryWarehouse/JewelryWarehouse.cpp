@@ -18,7 +18,7 @@ string GetMaterial(int choice);
 
 int main()
 {
-	ofstream file("file_1.txt");
+	ofstream file("../../file_1.txt");
 	string message[] = { "name", "weight","price","count" };
 	string input;
 	int count;

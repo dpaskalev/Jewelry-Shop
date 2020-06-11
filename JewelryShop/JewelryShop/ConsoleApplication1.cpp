@@ -243,3 +243,8 @@ void PrintResult(vector<Jewelry> inventory)
 
 	cout <<"Total cost: "<< cost << "$\n";
 }
+
+string GetName(string value)
+{
+
+}

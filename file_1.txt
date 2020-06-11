@@ -1,3 +1,2 @@
-1 Neckless Silver Silver_necless 200 120 2 
-2 Ring Gold Golden_ring 50 200 3
-
+1 Neckless Silver Silver_necless 200 120 1 
+2 Ring Gold Golden_ring 50 200 3 

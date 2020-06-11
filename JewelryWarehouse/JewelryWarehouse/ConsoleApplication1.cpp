@@ -13,10 +13,12 @@ string GetType(int choice);
 
 string GetMaterial(int choice);
 
+string GetName(string value);
+
 int main()
 {
-	ofstream file("../file_1.txt");
-	string message[] = { "name", "weight","price","count" };
+	ofstream file("../../file_1.txt");
+	string message[] = { "name", "weight [gr.]","price [$]","count" };
 	string input;
 	int count;
 	int choice;
@@ -28,21 +30,29 @@ int main()
 
 		for (int i = 0; i < count; i++)
 		{
-			file << "(" << i + 1 << ")\n";
+			file << i + 1 << " ";
 			PrintTypes();
 			cin >> choice;
-			file << "Type: " << GetType(choice) << "\n";
+			file << GetType(choice) << " ";
 			PrintMaterials();
 			cin >> choice;
-			file << "Material: " << GetMaterial(choice) << "\n";
+			file << GetMaterial(choice) << " ";
 			getline(cin, input);
 			for (int j = 0; j < sizeof(message) / sizeof(message[0]); j++)
 			{
 				cout << "Enter " << message[j] << " of the jewelry.\n";
 				getline(cin, input);
-				file << message[j] << ": " << input << "\n";
+
+				if (j == 0)
+				{
+					file << GetName(input) << " ";
+				}
+				else
+				{
+					file << input << " ";
+				}
 			}
-			file << "::\n";
+			file << "\n";
 		}
 	}
 	else
@@ -109,4 +119,17 @@ string GetMaterial(int choice) {
 	}
 
 	return result;
+}
+
+string GetName(string value)
+{
+	for (int i = 0; i < value.length(); i++)
+	{
+		if (value[i] == ' ')
+		{
+			value[i] = '_';
+		}
+	}
+
+	return value;
 }

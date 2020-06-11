@@ -100,6 +100,8 @@ void Loop(vector<Jewelry> colection, vector<Jewelry> inventory);
 
 void PrintResult(vector<Jewelry> inventory);
 
+string GetName(string value);
+
 int main()
 {
 	ifstream file("../../file_1.txt");
@@ -136,7 +138,7 @@ void PrintItemData(Jewelry element, int i) {
 	cout <<"Index: "<< "(" << element.GetIndex()<< ")" << "\n";
 	cout <<"Type: "<< element.GetType() << "\n";
 	cout <<"Material: "<< element.GetMaterial() << "\n";
-	cout <<"Name: "<< element.GetName() << "\n";
+	cout <<"Name: "<< GetName(element.GetName()) << "\n";
 	cout <<"Weight: "<< element.GetWeight() << "gr.\n";
 	cout <<"Price: "<< element.GetPrice() << "$\n";
 	cout <<"Count: "<< element.GetCount() << "\n";
@@ -246,5 +248,13 @@ void PrintResult(vector<Jewelry> inventory)
 
 string GetName(string value)
 {
+	for (int i = 0; i < value.length(); i++)
+	{
+		if (value[i] == '_')
+		{
+			value[i] = ' ';
+		}
+	}
 
+	return value;
 }

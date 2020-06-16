@@ -134,7 +134,6 @@ int main()
 }
 
 void PrintItemData(Jewelry element, int i) {
-	element.SetIndex(i + 1);
 	cout <<"Index: "<< "(" << element.GetIndex()<< ")" << "\n";
 	cout <<"Type: "<< element.GetType() << "\n";
 	cout <<"Material: "<< element.GetMaterial() << "\n";
@@ -157,12 +156,16 @@ vector<Jewelry> ProcessColection(vector<Jewelry> colection, int choice)
 	{
 		if (colection[i].GetIndex() == choice)
 		{
-			colection[i].SetCount(colection[i].GetCount() - 1);
 			colection[colection.size() - 1] = colection[i];
+			colection[i].SetCount(colection[i].GetCount() - 1);
 
 			if (colection[i].GetCount() == 0)
 			{
-				colection.erase(colection.begin() + (i + 1));
+				colection.erase(colection.begin() + i);
+				for (int j = 0; j < colection.size() - 1; j++)
+				{
+					colection[i].SetIndex(i + 1);
+				}
 			}
 			break;
 		}
@@ -173,15 +176,10 @@ vector<Jewelry> ProcessColection(vector<Jewelry> colection, int choice)
 
 vector<Jewelry> ProcessInventory(vector<Jewelry> inventory, vector<Jewelry> colection,int choice)
 {
-	if (choice > colection.size() - 1)
-	{
-		choice--;
-	}
-
 	bool contains = false;
 	for (int j = 0; j < inventory.size(); j++)
 	{
-		if (inventory[j].GetIndex() == colection[choice].GetIndex())
+		if (inventory[j].GetName() == colection[colection.size() - 1].GetName())
 		{
 			inventory[j].SetCount(inventory[j].GetCount() + 1);
 			contains = true;
@@ -190,7 +188,7 @@ vector<Jewelry> ProcessInventory(vector<Jewelry> inventory, vector<Jewelry> cole
 	}
 	if (contains == false)
 	{
-		colection[colection.size() - 1].SetCount((colection[choice].GetCount()) - (colection[choice].GetCount() - 1));
+		colection[colection.size() - 1].SetCount(1);
 		inventory.push_back(colection[colection.size() - 1]);
 	}
 
